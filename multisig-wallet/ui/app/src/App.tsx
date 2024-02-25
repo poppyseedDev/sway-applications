@@ -8,12 +8,13 @@ import {
 // You can also do command + space and the compiler will suggest the correct name.
 import { MultisigContractAbi__factory  } from "./sway-api"
 import type { MultisigContractAbi } from "./sway-api";
+import { AssetId } from "fuels";
  
 const CONTRACT_ID = '0xa20c00c07549c3e316a8ae20dd611dbc9f465d5978c88b2ca6ee720e64d8de5d';
 
 export default function Home() {
   const [contract, setContract] = useState<MultisigContractAbi>();
-  const [balance, setBalance] = useState<string>();
+  const [balance, setBalance] = useState<number>();
   const { connect, setTheme, isConnecting } = useConnectUI();
   const { isConnected } = useIsConnected();
   const { wallet } = useWallet();
@@ -21,7 +22,7 @@ export default function Home() {
   setTheme("dark");
  
   useEffect(() => {
-    async function getInitialCount(){
+    async function setupContract() {
       if(isConnected && wallet){
         const multisigContract = MultisigContractAbi__factory.connect(CONTRACT_ID, wallet);
         setContract(multisigContract);
@@ -29,16 +30,25 @@ export default function Home() {
       }
     }
     
-    getInitialCount();
+    setupContract();
   }, [isConnected, wallet]);
  
+
+
   const fetchBalance = async (multisigContract: MultisigContractAbi) => {
     try {
-      const assetId = 0x000; // Specify the asset ID you're interested in
-      const balance = await multisigContract.functions
+      const assetId: AssetId = {
+        value: '0x9ae5b658754e096e4d681c548daf46354495a437cc61492599e33fc64dcdc30c',
+      };
+      const { value } = await multisigContract.functions
         .balance(assetId)
-        .call();
-      setBalance(balance.toString());
+        .txParams({
+          gasPrice: 1,
+          gasLimit: 100_000,
+        })
+        .simulate();
+      setBalance(value.toNumber());
+      console.log(value);
     } catch (error) {
       console.error(error);
     }
