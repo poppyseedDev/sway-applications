@@ -10,12 +10,15 @@ import { MultisigContractAbi__factory  } from "./sway-api"
 import type { MultisigContractAbi } from "./sway-api";
 import { AssetId, BaseAssetId, BigNumberish } from "fuels";
 import BN from "./utils/BN";
- 
+import { fetchInitialState, executeTransaction, setNewThreshold, setWeight } from './helper';
+
 const CONTRACT_ID = '0xa20c00c07549c3e316a8ae20dd611dbc9f465d5978c88b2ca6ee720e64d8de5d';
 
 export default function Home() {
   const [contract, setContract] = useState<MultisigContractAbi>();
   const [balance, setBalance] = useState<number>();
+  const [threshold, setThreshold] = useState(0);
+  const [nonce, setNonce] = useState(0);
   const [walletBalance, setWalletBalance] = useState<string>();
   const { connect, setTheme, isConnecting } = useConnectUI();
   const { isConnected } = useIsConnected();
@@ -29,6 +32,8 @@ export default function Home() {
         const multisigContract = MultisigContractAbi__factory.connect(CONTRACT_ID, wallet);
         setContract(multisigContract);
         await fetchBalance(multisigContract);
+        await fetchInitialState(multisigContract, setBalance, setThreshold, setNonce);
+
       }
     }
     
@@ -78,7 +83,10 @@ export default function Home() {
             <div style={styles.counter}>
               {walletBalance ?? 0} ETH
             </div>
-            <div></div>
+            <div>
+              <h3 style={styles.label}>Current Threshold: {threshold}</h3>
+              <h3 style={styles.label}>Current Nonce: {nonce}</h3>
+            </div>
           </>
         ) : (
           <button
