@@ -8,13 +8,15 @@ import {
 // You can also do command + space and the compiler will suggest the correct name.
 import { MultisigContractAbi__factory  } from "./sway-api"
 import type { MultisigContractAbi } from "./sway-api";
-import { AssetId } from "fuels";
+import { AssetId, BaseAssetId, BigNumberish } from "fuels";
+import BN from "./utils/BN";
  
 const CONTRACT_ID = '0xa20c00c07549c3e316a8ae20dd611dbc9f465d5978c88b2ca6ee720e64d8de5d';
 
 export default function Home() {
   const [contract, setContract] = useState<MultisigContractAbi>();
   const [balance, setBalance] = useState<number>();
+  const [walletBalance, setWalletBalance] = useState<string>();
   const { connect, setTheme, isConnecting } = useConnectUI();
   const { isConnected } = useIsConnected();
   const { wallet } = useWallet();
@@ -32,13 +34,21 @@ export default function Home() {
     
     setupContract();
   }, [isConnected, wallet]);
+
+  useEffect(() => {
+    async function fetchWalletBalance() {
+      if(isConnected && wallet){
+        const walletBalance: BigNumberish = await wallet.getBalance(BaseAssetId);
+        setWalletBalance(walletBalance.toString());
+      }
+    }
+    fetchWalletBalance();
+  }, [isConnected, walletBalance]);
  
-
-
   const fetchBalance = async (multisigContract: MultisigContractAbi) => {
     try {
       const assetId: AssetId = {
-        value: '0x9ae5b658754e096e4d681c548daf46354495a437cc61492599e33fc64dcdc30c',
+        value: BaseAssetId,
       };
       const { value } = await multisigContract.functions
         .balance(assetId)
@@ -48,11 +58,12 @@ export default function Home() {
         })
         .simulate();
       setBalance(value.toNumber());
-      console.log(value);
+      console.log(new BN(value.toString()))
     } catch (error) {
       console.error(error);
     }
   };
+  
  
   return (
     <div style={styles.root}>
@@ -61,9 +72,13 @@ export default function Home() {
           <>
             <h3 style={styles.label}>Multisig Wallet Balance</h3>
             <div style={styles.counter}>
-              {balance ?? 0} Asset Units
+              {balance ?? 0} ETH
             </div>
-            {/* Implement additional functionality like executing transactions, setting thresholds, etc., as needed. */}
+            <h3 style={styles.label}>Wallet Balance</h3>
+            <div style={styles.counter}>
+              {walletBalance ?? 0} ETH
+            </div>
+            <div></div>
           </>
         ) : (
           <button
