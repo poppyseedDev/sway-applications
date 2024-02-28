@@ -9,22 +9,25 @@ import {
 import { AuctionContractAbi__factory  } from "./sway-api"
 import type { AuctionContractAbi } from "./sway-api";
 import { AssetId, BaseAssetId, BigNumberish } from "fuels";
-import { fetchInitialState, executeTransaction, setNewThreshold, setWeight, fetchThreshold } from './helper';
-import {  } from "./sway-api/contracts/AuctionContractAbi";
+import {
+  fetchAuctionInfo,
+  fetchDepositBalance,
+  setBid,
+  createAuction,
+  cancelAuction,
+  widthdraw,
+  fetchTotalAuctions
+} from './helper';
+import { AuctionOutput, AuctionInput, IdentityInput } from "./sway-api/contracts/AuctionContractAbi";
 
 const CONTRACT_ID = '0x376184205f798560be5ecb9387c244a46ec416b9f6854efcdacd668481bc5f65';
 
 export default function Home() {
   const [contract, setContract] = useState<AuctionContractAbi>();
-  const [balance, setBalance] = useState<number>();
-  const [threshold, setThreshold] = useState(0);
-  const [nonce, setNonce] = useState(0);
   const [walletBalance, setWalletBalance] = useState<string>();
   const { connect, setTheme, isConnecting } = useConnectUI();
   const { isConnected } = useIsConnected();
   const { wallet } = useWallet();
-  const [newThreshold, setNewThresholdValue] = useState('');
-
  
   setTheme("dark");
  
@@ -33,7 +36,6 @@ export default function Home() {
       if(isConnected && wallet){
         const multisigContract = AuctionContractAbi__factory.connect(CONTRACT_ID, wallet);
         setContract(multisigContract);
-        await fetchInitialState(multisigContract, setBalance, setThreshold, setNonce);
       }
     }
     
@@ -55,27 +57,10 @@ export default function Home() {
       <div style={styles.container}>
         {isConnected ? (
           <>
-            <h3 style={styles.label}>Multisig Wallet Balance</h3>
-            <div style={styles.counter}>
-              {balance ?? 0} ETH
-            </div>
-            <h3 style={styles.label}>Wallet Balance</h3>
-            <div style={styles.counter}>
-              {walletBalance ?? 0} ETH
-            </div>
             <div>
-              <h3 style={styles.label}>Current Threshold: {threshold}</h3>
-              <h3 style={styles.label}>Current Nonce: {nonce}</h3>
+              <label style={styles.label}>Wallet Balance</label>
+              <div style={styles.counter}>{walletBalance}</div>
             </div>
-            <div>
-            <h3 style={styles.label}>Set New Threshold</h3>
-            <input
-              type="number"
-              value={newThreshold}
-              onChange={(e) => setNewThresholdValue(e.target.value)}
-              style={styles.input}
-            />
-          </div>
 
           </>
         ) : (
