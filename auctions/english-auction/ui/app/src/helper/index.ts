@@ -58,6 +58,10 @@ const createAuction = async (
       0,
       seller
     )
+    	.callParams({
+	  forward: [10, BaseAssetId],
+	  gasLimit: 1,
+	})
     .txParams({
       gasPrice: 1,
       gasLimit: 100_000,
