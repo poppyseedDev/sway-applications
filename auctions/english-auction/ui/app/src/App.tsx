@@ -6,7 +6,7 @@ import {
 } from '@fuel-wallet/react';
 import { AuctionContractAbi__factory  } from "./sway-api";
 import type { AuctionContractAbi } from "./sway-api";
-import { AssetId, BaseAssetId, BigNumberish } from "fuels";
+import { AssetId, BaseAssetId, getAssetId, BigNumberish } from "fuels";
 import {
   fetchAuctionInfo,
   fetchDepositBalance,
@@ -59,12 +59,23 @@ export default function Home() {
       return;
     }
 
-    const bid_asset: AssetIdInput = {
-      value: BaseAssetId, // Replace with the actual asset ID
-    }; 
+    const assetIdArray = new Uint8Array(32).fill(1); // Fill the array with zeros
+    const bidAssetId = '0x' + Array.from(assetIdArray).map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+    
+    let bid_asset: AssetId = {
+      value: bidAssetId,
+    };
+
+    console.log("bid_asset: ", bidAssetId);
+
+    // const bid_asset: AssetIdInput = {
+    //   value: BaseAssetId, // Replace with the actual asset ID
+    // }; 
+
     const duration: BigNumberish = 10; 
-    const initial_price: BigNumberish = 10; 
-    const reserve_price: BigNumberish = 20; 
+    const initial_price: BigNumberish = 0; 
+    const reserve_price: BigNumberish = 0; 
     const seller: IdentityInput = { 
       Address: {
         value: wallet.address.toString(),
@@ -74,7 +85,14 @@ export default function Home() {
       },
     };
     if (contract && wallet) {
-      await createAuction(contract, bid_asset, duration, initial_price, reserve_price, seller);
+      await createAuction(
+        contract, 
+        bid_asset, 
+        duration, 
+        initial_price, 
+        reserve_price, 
+        seller
+      );
     }
   };
 

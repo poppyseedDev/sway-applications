@@ -38,22 +38,25 @@ const cancelAuction = async (
   }
 }
 
+type Option<T> = T | undefined;
+
+
 const createAuction = async (
   multisigContract: AuctionContractAbi,
   bid_asset: AssetId,
   duration: BigNumberish,
   initial_price: BigNumberish,
-  reserve_price: BigNumberish,
+  reserve_price: Option<BigNumberish>,
   seller: IdentityInput,
 ) => {
   try {
     const txResponse = await multisigContract.functions
     .create(
       bid_asset,
-      duration,
-      initial_price,
-      reserve_price,
-      seller,
+      10,
+      1,
+      0,
+      seller
     )
     .txParams({
       gasPrice: 1,
