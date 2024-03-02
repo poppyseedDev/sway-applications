@@ -5,6 +5,7 @@ export default createConfig({
         '../../project/contracts/auction-contract',
   ],
   output: './src/sway-api',
+  chainConfig: './src/chainConfig.json',
 });
 
 /**

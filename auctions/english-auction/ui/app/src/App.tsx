@@ -17,8 +17,8 @@ import {
   fetchTotalAuctions
 } from './helper';
 import { AuctionOutput, AuctionInput, IdentityInput, AssetIdInput } from "./sway-api/contracts/AuctionContractAbi";
-
-const CONTRACT_ID = '0x376184205f798560be5ecb9387c244a46ec416b9f6854efcdacd668481bc5f65';
+import contratctsId from "./sway-api/contract-ids.json";
+//const CONTRACT_ID = '0x376184205f798560be5ecb9387c244a46ec416b9f6854efcdacd668481bc5f65';
 
 export default function Home() {
   const [contract, setContract] = useState<AuctionContractAbi>();
@@ -35,7 +35,7 @@ export default function Home() {
   useEffect(() => {
     async function setupContract() {
       if(isConnected && wallet){
-        const auctionContract = AuctionContractAbi__factory.connect(CONTRACT_ID, wallet);
+        const auctionContract = AuctionContractAbi__factory.connect(contratctsId.auctionContract, wallet);
         setContract(auctionContract);
       }
     }
@@ -58,30 +58,17 @@ export default function Home() {
       alert("Contract not loaded or wallet not connected");
       return;
     }
-
-    const assetIdArray = new Uint8Array(32).fill(1); // Fill the array with zeros
-    const bidAssetId = '0x' + Array.from(assetIdArray).map(byte => byte.toString(16).padStart(2, '0')).join('');
-
     
-    let bid_asset: AssetId = {
-      value: bidAssetId,
+    let bid_asset: AssetIdInput = {
+      value: BaseAssetId,
     };
 
-    console.log("bid_asset: ", bidAssetId);
-
-    // const bid_asset: AssetIdInput = {
-    //   value: BaseAssetId, // Replace with the actual asset ID
-    // }; 
-
     const duration: BigNumberish = 10; 
-    const initial_price: BigNumberish = 0; 
-    const reserve_price: BigNumberish = 0; 
+    const initial_price: BigNumberish = 1; 
+    const reserve_price: BigNumberish = 10; 
     const seller: IdentityInput = { 
       Address: {
-        value: wallet.address.toString(),
-      },
-      ContractId: {
-        value: CONTRACT_ID,
+        value: wallet.address.toB256(),
       },
     };
     if (contract && wallet) {

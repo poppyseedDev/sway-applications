@@ -53,12 +53,12 @@ const createAuction = async (
     const txResponse = await multisigContract.functions
     .create(
       bid_asset,
-      10,
-      1,
-      0,
+      1000,
+      initial_price,
+      reserve_price,
       seller
     )
-    	.callParams({
+    .callParams({
 	  forward: [10, BaseAssetId],
 	  gasLimit: 1,
 	})

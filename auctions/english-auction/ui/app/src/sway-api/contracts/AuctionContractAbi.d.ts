@@ -47,8 +47,6 @@ export type CancelAuctionEventInput = { auction_id: BigNumberish };
 export type CancelAuctionEventOutput = { auction_id: BN };
 export type ContractIdInput = { value: string };
 export type ContractIdOutput = ContractIdInput;
-export type CreateAuctionEventInput = { auction_id: BigNumberish, bid_asset: AssetIdInput, sell_asset: AssetIdInput, sell_asset_amount: BigNumberish };
-export type CreateAuctionEventOutput = { auction_id: BN, bid_asset: AssetIdOutput, sell_asset: AssetIdOutput, sell_asset_amount: BN };
 export type WithdrawEventInput = { asset: AssetIdInput, asset_amount: BigNumberish, auction_id: BigNumberish, user: IdentityInput };
 export type WithdrawEventOutput = { asset: AssetIdOutput, asset_amount: BN, auction_id: BN, user: IdentityOutput };
 
