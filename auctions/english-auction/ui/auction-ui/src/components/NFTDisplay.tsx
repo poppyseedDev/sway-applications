@@ -1,11 +1,8 @@
-import AuctionIdInfoEncrypted from "../components/functions/AuctionIdInfo.tsx";
 import { useParams } from "react-router-dom";
 
-// import NFT from '../assets/example_nft.svg'
+import NFT from '../assets/example_nft.svg'
 
 function NFTDisplay() {
-  const NFT =
-    "https://pbs.twimg.com/media/GHoZZbPXMAAFciA?format=jpg&name=medium";
   const { auctionId } = useParams();
 
   if (auctionId)
@@ -23,7 +20,6 @@ function NFTDisplay() {
             </div>
 
             <div className="mt-[-25px]">
-              <AuctionIdInfoEncrypted auctionId={Number(auctionId)} />
             </div>
           </div>
         </div>

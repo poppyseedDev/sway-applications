@@ -1,7 +1,10 @@
-import useContractReadFunction from "../../hooks/useContractRead";
 import { type BigNumber } from "ethers";
 import { Link } from "react-router-dom";
-import { useAccount, useBlockNumber } from "wagmi";
+import {
+  useConnectUI,
+  useIsConnected,
+  useWallet,
+} from '@fuel-wallet/react';
 
 export interface Auction {
   nft: string;
@@ -18,38 +21,39 @@ export interface Auction {
 }
 
 export const ReadAuction = () => {
-  const { address } = useAccount();
-  const { data: blockNumber } = useBlockNumber();
+  const { wallet } = useWallet();
 
-  const {
-    data: unformattedData,
-    isLoading,
-    error,
-  } = useContractReadFunction({
-    functionName: "getAuctionsByOwner",
-    args: [address],
-  });
+  const address = wallet?.address || "";
+  
+  // const {
+  //   data: unformattedData,
+  //   isLoading,
+  //   error,
+  // } = useContractReadFunction({
+  //   functionName: "getAuctionsByOwner",
+  //   args: [address],
+  // });
 
   // Process and format auction data
-  const formattedData = Array.isArray(unformattedData)
-    ? unformattedData.map((auction: Auction) => ({
-        ...auction,
-        nftId: auction.nftId.toString(),
-        startingBid: auction.startingBid.toString(),
-        endAt: auction.endAt.toString(),
-        highestBid: auction.highestBid.toString(),
-        reservePrice: auction.reservePrice.toString(),
-      }))
-    : [];
+  // const formattedData = Array.isArray(unformattedData)
+  //   ? unformattedData.map((auction: Auction) => ({
+  //       ...auction,
+  //       nftId: auction.nftId.toString(),
+  //       startingBid: auction.startingBid.toString(),
+  //       endAt: auction.endAt.toString(),
+  //       highestBid: auction.highestBid.toString(),
+  //       reservePrice: auction.reservePrice.toString(),
+  //     }))
+  //   : [];
 
-  if (isLoading || !blockNumber) return <div>Loading...</div>;
-  if (error)
-    return <div>Error: {(error as any).message || "Unknown error"}</div>;
+  // if (isLoading || !blockNumber) return <div>Loading...</div>;
+  // if (error)
+  //   return <div>Error: {(error as any).message || "Unknown error"}</div>;
 
   return (
     <div>
       <h3>Auction Details for account {address}</h3>
-      {formattedData.length > 0 ? (
+      {/* {formattedData.length > 0 ? (
         formattedData.map((auction, index) => (
           <Link
             to={`/auction/${auction.nftId}`}
@@ -80,7 +84,7 @@ export const ReadAuction = () => {
         ))
       ) : (
         <p>No auction data found for this account.</p>
-      )}
+      )} */}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import BidFairValue from "./BidFairValue";
 import BidHidden from "./BidHidden";
 
 import "@rainbow-me/rainbowkit/styles.css";
+import { FuelProvider } from '@fuel-wallet/react';
 
 import AuctionsPage from "./AuctionsPage";
 import CreateAuctionPage from "./CreateAuctionPage";
@@ -38,10 +39,15 @@ function App() {
   ]);
 
   return (
-    <div className="selection:bg-[#527BFF] selection:text-[#0B0C15]">
-      <RouterProvider router={router} />
-    </div>
-
+    <FuelProvider 
+    fuelConfig={{
+        devMode: true,
+      }}
+    >
+      <div className="selection:bg-[#527BFF] selection:text-[#0B0C15]">
+        <RouterProvider router={router} />
+      </div>
+    </FuelProvider>
   );
 }
 

@@ -1,19 +1,20 @@
-import { useAccount } from "wagmi";
-import useContractFunction from "../../hooks/useContractFuction.ts";
 import { useState } from "react";
-import addresses from "../../../constants/deployed_address.ts";
-import { sepolia } from "viem/chains";
+import {
+  useConnectUI,
+  useIsConnected,
+  useWallet,
+} from '@fuel-wallet/react';
 
 export const ApproveAuction = () => {
-  const { isConnected } = useAccount();
+  const { isConnected } = useIsConnected();
   const [nftId, setNftId] = useState(""); // State to hold the NFT ID input by the user
   const [nftAddress, setNftAddress] = useState("");
 
-  const { execute, status, isLoading } = useContractFunction({
-    functionName: "approve",
-    args: [addresses[sepolia.id]?.AUCTION_ADDRESS, nftId ? parseInt(nftId) : 1],
-    smartContractAddress: addresses[sepolia.id]?.NFT_ADDRESS,
-  });
+  // const { execute, status, isLoading } = useContractFunction({
+  //   functionName: "approve",
+  //   args: [addresses[sepolia.id]?.AUCTION_ADDRESS, nftId ? parseInt(nftId) : 1],
+  //   smartContractAddress: addresses[sepolia.id]?.NFT_ADDRESS,
+  // });
 
   if (isConnected)
     return (
@@ -40,10 +41,8 @@ export const ApproveAuction = () => {
         </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
-          onClick={execute}
-          disabled={isLoading}
+
         >
-          {isLoading ? "Approving..." : "Approve"}
         </button>
         <p>{status}</p>
       </div>

@@ -1,7 +1,6 @@
 import HeaderDapp from "./components/HeaderDapp.tsx";
 import ApproveAuction from "./components/web3interact/AssignNFTtoContract.tsx";
 import { CreateAuction } from "./components/functions/CreateAuction.tsx";
-import Taco from "./components/taco/Taco.tsx";
 
 import line from "./assets/line.svg";
 import line2 from "./assets/line2.svg";
@@ -30,7 +29,6 @@ function CreateAuctionPage() {
               Hide the NFT, so only the Winner of the Auction can see it!
             </div>
             <img src={line} alt="" />
-            <Taco />
             <img src={poweredByT} alt="" />
           </div>
         </div>

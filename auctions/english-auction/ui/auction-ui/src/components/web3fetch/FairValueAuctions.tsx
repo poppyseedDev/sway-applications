@@ -1,6 +1,4 @@
-import useContractReadFunction from "../../hooks/useContractRead";
 import { BigNumber } from "ethers";
-import { useBlockNumber } from "wagmi";
 import { Link } from "react-router-dom";
 
 export interface Auction {
@@ -15,33 +13,33 @@ export interface Auction {
 }
 
 export const FairValueAuctions = () => {
-  const { data: blockNumber } = useBlockNumber();
-  const {
-    data: unformattedData,
-    isLoading,
-    error,
-  } = useContractReadFunction({
-    functionName: "getAllAuctions",
-    args: [],
-  });
+  // const { data: blockNumber } = useBlockNumber();
+  // const {
+  //   data: unformattedData,
+  //   isLoading,
+  //   error,
+  // } = useContractReadFunction({
+  //   functionName: "getAllAuctions",
+  //   args: [],
+  // });
 
-  const formattedData = Array.isArray(unformattedData)
-    ? unformattedData.map((auction: Auction) => ({
-        ...auction,
-        nftId: auction.nftId.toString(),
-        startingBid: BigNumber.from(auction.startingBid).toString(),
-        endAt: BigNumber.from(auction.endAt).toString(),
-        highestBid: BigNumber.from(auction.highestBid).toString(),
-      }))
-    : [];
+  // const formattedData = Array.isArray(unformattedData)
+  //   ? unformattedData.map((auction: Auction) => ({
+  //       ...auction,
+  //       nftId: auction.nftId.toString(),
+  //       startingBid: BigNumber.from(auction.startingBid).toString(),
+  //       endAt: BigNumber.from(auction.endAt).toString(),
+  //       highestBid: BigNumber.from(auction.highestBid).toString(),
+  //     }))
+  //   : [];
 
-  if (isLoading || !blockNumber) return <div>Loading...</div>;
-  if (error)
-    return (
-      <div className="text-red-500">
-        Error: {(error as any).message || "Unknown error"}
-      </div>
-    );
+  // if (isLoading || !blockNumber) return <div>Loading...</div>;
+  // if (error)
+  //   return (
+  //     <div className="text-red-500">
+  //       Error: {(error as any).message || "Unknown error"}
+  //     </div>
+  //   );
 
   return (
     <div className="p-6">
@@ -58,7 +56,7 @@ export const FairValueAuctions = () => {
           </div>
         </Link>
       </div>
-      {formattedData && formattedData.length > 0 ? (
+      {/* {formattedData && formattedData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
           {formattedData.map((auction, index) => (
             <Link
@@ -100,11 +98,11 @@ export const FairValueAuctions = () => {
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
+          ))} 
+        </div> 
       ) : (
         <p>No auctions data found.</p>
-      )}
-    </div>
+      )} */}
+    </div> 
   );
 };

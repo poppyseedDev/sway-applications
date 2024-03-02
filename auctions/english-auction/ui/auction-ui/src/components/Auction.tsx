@@ -1,9 +1,13 @@
-import { useAccount } from "wagmi";
 import { ApproveAuction } from "./web3interact/AssignNFTtoContract";
 import { CreateAuction } from "./web3interact/CreateAuction";
+import {
+  useConnectUI,
+  useIsConnected,
+  useWallet,
+} from '@fuel-wallet/react';
 
 function Auctions() {
-  const { isConnected } = useAccount();
+  const { isConnected } = useIsConnected();
 
   if (!isConnected)
     return (

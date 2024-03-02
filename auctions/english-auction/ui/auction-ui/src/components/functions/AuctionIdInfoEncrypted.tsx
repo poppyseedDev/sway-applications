@@ -1,6 +1,3 @@
-import { ethers } from "ethers";
-import { useBlockNumber } from "wagmi";
-import useContractReadFunction from "../../hooks/useContractRead";
 
 export interface Auction {
   nft: string;
@@ -17,63 +14,21 @@ export interface Auction {
 }
 
 function AuctionIdInfoEncrypted({ auctionId }: { auctionId: number }) {
-  const { data: blockNumber } = useBlockNumber();
-  const {
-    data: rawAuctionData,
-    isLoading,
-    error,
-  } = useContractReadFunction({
-    functionName: "auction_info",
-    args: [auctionId],
-  });
 
-  const auctionData = rawAuctionData as any; // This line changes
-
-  // Transform data only if it exists
-  const formattedData = auctionData
-    ? {
-        nft: auctionData.nft,
-        nftId: auctionData.nftId
-          ? ethers.BigNumber.from(auctionData.nftId).toString()
-          : "N/A",
-        seller: auctionData.seller,
-        startingBid: auctionData.startingBid
-          ? ethers.utils.formatEther(auctionData.startingBid)
-          : "0",
-        endAt: auctionData.endAt
-          ? ethers.BigNumber.from(auctionData.endAt).toString()
-          : "N/A",
-        started: auctionData.started,
-        ended: auctionData.ended,
-        highestBidder: auctionData.highestBidder,
-        highestBid: auctionData.highestBid
-          ? ethers.utils.formatEther(auctionData.highestBid)
-          : "0",
-        reservePrice: auctionData.reservePrice
-          ? ethers.utils.formatEther(auctionData.reservePrice)
-          : "0",
-        cancelled: auctionData.cancelled,
-      }
-    : null;
-
-  if (isLoading || !blockNumber) {
-    return <div>Loading...</div>;
-  }
-
-  if (error)
-    return (
-      <div className="text-red-500">
-        Error: {(error as any).message || "Unknown error"}
-      </div>
-    );
+  // if (error)
+  //   return (
+  //     <div className="text-red-500">
+  //       Error: {(error as any).message || "Unknown error"}
+  //     </div>
+  //   );
 
   return (
     <div className="mt-5 p-6 w-full">
       <h3 className="text-2xl font-semibold mb-4">Auction ID: {auctionId}</h3>
-      {formattedData ? (
+      {true ? (
         <div className="">
           <div className="p-4 border rounded-lg hover:shadow-lg transition-shadow">
-            <h4 className="text-xl font-medium">
+            {/* <h4 className="text-xl font-medium">
               NFT ID: {formattedData.nftId}
             </h4>
             <p className="text-gray-600">
@@ -96,7 +51,7 @@ function AuctionIdInfoEncrypted({ auctionId }: { auctionId: number }) {
               className={`text-sm ${formattedData.ended ? "text-red-500" : "text-green-500"}`}
             >
               {formattedData.ended ? "Auction Ended" : "Auction Active"}
-            </p>
+            </p> */}
           </div>
         </div>
       ) : (
