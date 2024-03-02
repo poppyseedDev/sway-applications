@@ -1,0 +1,32 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "animate.css";
+
+/* HERO */
+
+.Hero-Section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+}
+
+.Hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5rem;
+  gap: 5rem;
+  height: 700px;
+  animation-duration: 2s;
+  animation-name: fadeIn;
+}
+
+.hero-text {
+  text-align: left;
+  font-size: 70px;
+  color: white;
+}
