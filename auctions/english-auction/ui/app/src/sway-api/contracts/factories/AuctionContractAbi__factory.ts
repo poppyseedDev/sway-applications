@@ -209,12 +209,12 @@ const _abi = {
         },
         {
           "name": "end_block",
-          "type": 17,
+          "type": 18,
           "typeArguments": null
         },
         {
           "name": "highest_bid",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -230,7 +230,7 @@ const _abi = {
         },
         {
           "name": "initial_price",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -239,7 +239,7 @@ const _abi = {
           "typeArguments": [
             {
               "name": "",
-              "type": 18,
+              "type": 19,
               "typeArguments": null
             }
           ]
@@ -251,7 +251,7 @@ const _abi = {
         },
         {
           "name": "sell_asset_amount",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -273,12 +273,12 @@ const _abi = {
       "components": [
         {
           "name": "amount",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -295,7 +295,7 @@ const _abi = {
       "components": [
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         }
       ],
@@ -315,6 +315,33 @@ const _abi = {
     },
     {
       "typeId": 16,
+      "type": "struct CreateAuctionEvent",
+      "components": [
+        {
+          "name": "auction_id",
+          "type": 19,
+          "typeArguments": null
+        },
+        {
+          "name": "bid_asset",
+          "type": 11,
+          "typeArguments": null
+        },
+        {
+          "name": "sell_asset",
+          "type": 11,
+          "typeArguments": null
+        },
+        {
+          "name": "sell_asset_amount",
+          "type": 19,
+          "typeArguments": null
+        }
+      ],
+      "typeParameters": null
+    },
+    {
+      "typeId": 17,
       "type": "struct WithdrawEvent",
       "components": [
         {
@@ -324,12 +351,12 @@ const _abi = {
         },
         {
           "name": "asset_amount",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -341,13 +368,13 @@ const _abi = {
       "typeParameters": null
     },
     {
-      "typeId": 17,
+      "typeId": 18,
       "type": "u32",
       "components": null,
       "typeParameters": null
     },
     {
-      "typeId": 18,
+      "typeId": 19,
       "type": "u64",
       "components": null,
       "typeParameters": null
@@ -358,7 +385,7 @@ const _abi = {
       "inputs": [
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         }
       ],
@@ -386,7 +413,7 @@ const _abi = {
       "inputs": [
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         }
       ],
@@ -415,12 +442,12 @@ const _abi = {
         },
         {
           "name": "duration",
-          "type": 17,
+          "type": 18,
           "typeArguments": null
         },
         {
           "name": "initial_price",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -429,7 +456,7 @@ const _abi = {
           "typeArguments": [
             {
               "name": "",
-              "type": 18,
+              "type": 19,
               "typeArguments": null
             }
           ]
@@ -443,20 +470,20 @@ const _abi = {
       "name": "create",
       "output": {
         "name": "",
-        "type": 18,
+        "type": 19,
         "typeArguments": null
       },
       "attributes": [
-        {
-          "name": "payable",
-          "arguments": []
-        },
         {
           "name": "storage",
           "arguments": [
             "read",
             "write"
           ]
+        },
+        {
+          "name": "payable",
+          "arguments": []
         }
       ]
     },
@@ -464,7 +491,7 @@ const _abi = {
       "inputs": [
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         }
       ],
@@ -488,7 +515,7 @@ const _abi = {
       "inputs": [
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         }
       ],
@@ -517,7 +544,7 @@ const _abi = {
       "inputs": [
         {
           "name": "auction_id",
-          "type": 18,
+          "type": 19,
           "typeArguments": null
         },
         {
@@ -533,7 +560,7 @@ const _abi = {
         "typeArguments": [
           {
             "name": "",
-            "type": 18,
+            "type": 19,
             "typeArguments": null
           }
         ]
@@ -552,7 +579,7 @@ const _abi = {
       "name": "total_auctions",
       "output": {
         "name": "",
-        "type": 18,
+        "type": 19,
         "typeArguments": null
       },
       "attributes": [
@@ -690,7 +717,7 @@ const _abi = {
       "logId": 15,
       "loggedType": {
         "name": "",
-        "type": 2,
+        "type": 16,
         "typeArguments": []
       }
     },
@@ -698,7 +725,7 @@ const _abi = {
       "logId": 16,
       "loggedType": {
         "name": "",
-        "type": 8,
+        "type": 5,
         "typeArguments": []
       }
     },
@@ -706,7 +733,23 @@ const _abi = {
       "logId": 17,
       "loggedType": {
         "name": "",
-        "type": 16,
+        "type": 2,
+        "typeArguments": []
+      }
+    },
+    {
+      "logId": 18,
+      "loggedType": {
+        "name": "",
+        "type": 8,
+        "typeArguments": []
+      }
+    },
+    {
+      "logId": 19,
+      "loggedType": {
+        "name": "",
+        "type": 17,
         "typeArguments": []
       }
     }

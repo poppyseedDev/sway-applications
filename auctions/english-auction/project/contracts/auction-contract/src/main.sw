@@ -154,37 +154,37 @@ impl EnglishAuction for Contract {
         //require(duration != 0, InitError::AuctionDurationNotProvided);
         require(initial_price != 0, InitError::InitialPriceCannotBeZero);
 
-        // let sell_asset = msg_asset_id();
-        // let sell_asset_amount = msg_amount();
-        // //require(sell_asset_amount != 0, InputError::IncorrectAmountProvided);
+        let sell_asset = msg_asset_id();
+        let sell_asset_amount = msg_amount();
+        require(sell_asset_amount != 0, InputError::IncorrectAmountProvided);
 
-        // // Setup auction
-        // let auction = Auction::new(
-        //     bid_asset,
-        //     duration + height(),
-        //     initial_price,
-        //     reserve_price,
-        //     sell_asset,
-        //     sell_asset_amount,
-        //     seller,
-        // );
+        // Setup auction
+        let auction = Auction::new(
+            bid_asset,
+            duration + height(),
+            initial_price,
+            reserve_price,
+            sell_asset,
+            sell_asset_amount,
+            seller,
+        );
 
-        // // Store the auction information
-        // let total_auctions = storage.total_auctions.read();
-        // storage
-        //     .deposits
-        //     .insert((seller, total_auctions), sell_asset_amount);
-        // storage.auctions.insert(total_auctions, auction);
-        // storage.total_auctions.write(total_auctions + 1);
+        // Store the auction information
+        let total_auctions = storage.total_auctions.read();
+        storage
+            .deposits
+            .insert((seller, total_auctions), sell_asset_amount);
+        storage.auctions.insert(total_auctions, auction);
+        storage.total_auctions.write(total_auctions + 1);
 
-        // log(CreateAuctionEvent {
-        //     auction_id: total_auctions,
-        //     bid_asset,
-        //     sell_asset,
-        //     sell_asset_amount,
-        // });
-        0
-        // total_auctions
+        log(CreateAuctionEvent {
+            auction_id: total_auctions,
+            bid_asset,
+            sell_asset,
+            sell_asset_amount,
+        });
+        
+        total_auctions
     }
 
     #[storage(read, write)]
